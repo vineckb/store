@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 interface Product {
   title: String;
@@ -19,6 +19,7 @@ interface Product {
 
 @Component
 export default class ProductItem extends Vue {
+  @Prop({ required: true })
   product: Product;
 }
 </script>
