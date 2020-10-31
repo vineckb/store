@@ -1,12 +1,31 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <ProductItem
+      v-for="product in products"
+      :product="product"
+      :key="product.id"
+    />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import ProductItem from "@/components/ProductItem";
+
 export default {
-  name: "Home",
+  components: { ProductItem },
+
+  data() {
+    return {
+      products: [
+        {
+          id: 1,
+          title: "title...",
+          slug: "slug",
+          price: 10,
+          image: "http://...",
+        },
+      ],
+    };
+  },
 };
 </script>
