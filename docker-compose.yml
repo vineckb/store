@@ -1,0 +1,43 @@
+# v2 syntax
+version: '2'
+
+# Named volumes
+volumes:
+  store-mysql-data:
+    driver: local
+
+services:
+  # web-app
+  web-app:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "81:8080"
+    container_name: store-web-app
+    volumes:
+       - ./web:/var/www/app
+       - /var/www/app/node_modules
+  # MySQL (5.7)
+  mysql:
+    image: mysql:5.7
+    container_name: store-mysql
+    volumes:
+      - store-mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=topsecret
+      - MYSQL_DATABASE=main
+      - MYSQL_USER=dev
+      - MYSQL_PASSWORD=undefined
+  # PHP (with Caddy)
+  api:
+    image: ambientum/php:7.3-nginx
+    container_name: store-api
+    volumes:
+      - ./api:/var/www/app
+    ports:
+      - "82:8080"
+    links:
+      - mysql
